@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { ShoppingCart, Package, Home, Catalog } from "lucide-react";
+import { ShoppingCart, Package, Home, LayoutGrid } from "lucide-react";
 
 interface HeaderProps {
   isAuthenticated: boolean;
@@ -39,7 +39,7 @@ const Header = ({ isAuthenticated, onLoginClick, cartItemsCount, currentPage, on
                   onClick={() => onPageChange('catalogue')}
                   className="flex items-center space-x-2"
                 >
-                  <Catalog className="h-4 w-4" />
+                  <LayoutGrid className="h-4 w-4" />
                   <span>Catalogue</span>
                 </Button>
                 
