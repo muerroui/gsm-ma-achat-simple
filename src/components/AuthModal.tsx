@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -16,6 +17,7 @@ const AuthModal = ({ isOpen, onClose, onLogin }: AuthModalProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const { t } = useLanguage();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,21 +35,21 @@ const AuthModal = ({ isOpen, onClose, onLogin }: AuthModalProps) => {
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="text-center text-2xl font-bold text-blue-600">
-            Connexion Grossiste
+            {t('auth.title')}
           </DialogTitle>
         </DialogHeader>
         
         <Card>
           <CardHeader>
-            <CardTitle>Accès Espace B2B</CardTitle>
+            <CardTitle>{t('auth.subtitle')}</CardTitle>
             <CardDescription>
-              Connectez-vous avec vos identifiants grossiste
+              {t('auth.description')}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">{t('auth.email')}</Label>
                 <Input
                   id="email"
                   type="email"
@@ -59,11 +61,11 @@ const AuthModal = ({ isOpen, onClose, onLogin }: AuthModalProps) => {
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="password">Mot de passe</Label>
+                <Label htmlFor="password">{t('auth.password')}</Label>
                 <Input
                   id="password"
                   type="password"
-                  placeholder="Votre mot de passe"
+                  placeholder={t('auth.password')}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
@@ -76,7 +78,7 @@ const AuthModal = ({ isOpen, onClose, onLogin }: AuthModalProps) => {
                   className="w-full bg-blue-600 hover:bg-blue-700"
                   disabled={loading}
                 >
-                  {loading ? "Connexion..." : "Se connecter"}
+                  {loading ? t('auth.connecting') : t('auth.connect')}
                 </Button>
                 
                 <Button 
@@ -85,15 +87,15 @@ const AuthModal = ({ isOpen, onClose, onLogin }: AuthModalProps) => {
                   onClick={onClose}
                   className="w-full"
                 >
-                  Annuler
+                  {t('auth.cancel')}
                 </Button>
               </div>
             </form>
             
             <div className="mt-4 text-center text-sm text-gray-600">
-              <p>Pas encore de compte grossiste ?</p>
+              <p>{t('auth.noAccount')}</p>
               <Button variant="link" className="p-0 h-auto text-blue-600">
-                Demander un accès B2B
+                {t('auth.requestAccess')}
               </Button>
             </div>
           </CardContent>

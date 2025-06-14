@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Search, ShoppingCart } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface Product {
   id: number;
@@ -26,6 +27,7 @@ interface ProductCatalogProps {
 const ProductCatalog = ({ onAddToCart }: ProductCatalogProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const { t } = useLanguage();
 
   // Données simulées - à remplacer par l'API WooCommerce
   const mockProducts: Product[] = [
@@ -76,10 +78,10 @@ const ProductCatalog = ({ onAddToCart }: ProductCatalogProps) => {
   ];
 
   const categories = [
-    { value: "all", label: "Toutes catégories" },
-    { value: "smartphones", label: "Smartphones" },
-    { value: "accessoires", label: "Accessoires" },
-    { value: "tablettes", label: "Tablettes" }
+    { value: "all", label: t('catalog.allCategories') },
+    { value: "smartphones", label: t('catalog.smartphones') },
+    { value: "accessoires", label: t('catalog.accessories') },
+    { value: "tablettes", label: t('catalog.tablets') }
   ];
 
   const filteredProducts = mockProducts.filter(product => {
@@ -95,16 +97,16 @@ const ProductCatalog = ({ onAddToCart }: ProductCatalogProps) => {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-4">Catalogue Produits</h2>
+        <h2 className="text-3xl font-bold text-gray-900 mb-4">{t('catalog.title')}</h2>
         <p className="text-gray-600 mb-6">
-          Découvrez nos produits GSM avec tarifs préférentiels grossiste
+          {t('catalog.subtitle')}
         </p>
 
         <div className="flex flex-col md:flex-row gap-4 mb-6">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
             <Input
-              placeholder="Rechercher un produit..."
+              placeholder={t('catalog.search')}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-10"
@@ -113,7 +115,7 @@ const ProductCatalog = ({ onAddToCart }: ProductCatalogProps) => {
           
           <Select value={selectedCategory} onValueChange={setSelectedCategory}>
             <SelectTrigger className="w-full md:w-[200px]">
-              <SelectValue placeholder="Catégorie" />
+              <SelectValue placeholder={t('catalog.category')} />
             </SelectTrigger>
             <SelectContent className="bg-white">
               {categories.map(category => (
@@ -155,14 +157,14 @@ const ProductCatalog = ({ onAddToCart }: ProductCatalogProps) => {
                     </Badge>
                   </div>
                   <span className="text-sm text-gray-500 line-through">
-                    Prix public: {product.price}€
+                    {t('catalog.publicPrice')} {product.price}€
                   </span>
                 </div>
               </div>
 
               <div className="text-xs text-gray-600">
-                <p>Stock: {product.stock} unités</p>
-                <p>Quantité min: {product.minQuantity} pcs</p>
+                <p>{t('catalog.stock')} {product.stock} {t('catalog.units')}</p>
+                <p>{t('catalog.minQuantity')} {product.minQuantity} {t('catalog.pieces')}</p>
               </div>
 
               <Button 
@@ -171,7 +173,7 @@ const ProductCatalog = ({ onAddToCart }: ProductCatalogProps) => {
                 disabled={product.stock === 0}
               >
                 <ShoppingCart className="h-4 w-4 mr-2" />
-                {product.stock === 0 ? "Rupture de stock" : "Ajouter au panier"}
+                {product.stock === 0 ? t('catalog.outOfStock') : t('catalog.addToCart')}
               </Button>
             </CardContent>
           </Card>
@@ -181,7 +183,7 @@ const ProductCatalog = ({ onAddToCart }: ProductCatalogProps) => {
       {filteredProducts.length === 0 && (
         <div className="text-center py-12">
           <p className="text-gray-500 text-lg">
-            Aucun produit trouvé pour votre recherche
+            {t('catalog.noProducts')}
           </p>
         </div>
       )}

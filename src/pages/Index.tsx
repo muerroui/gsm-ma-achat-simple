@@ -8,12 +8,14 @@ import AuthModal from "@/components/AuthModal";
 import ProductCatalog from "@/components/ProductCatalog";
 import Cart from "@/components/Cart";
 import OrderTracking from "@/components/OrderTracking";
+import { LanguageProvider, useLanguage } from "@/contexts/LanguageContext";
 
-const Index = () => {
+const IndexContent = () => {
   const [currentPage, setCurrentPage] = useState('accueil');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [cartItems, setCartItems] = useState([]);
+  const { t } = useLanguage();
 
   const addToCart = (product) => {
     setCartItems(prev => {
@@ -44,7 +46,6 @@ const Index = () => {
   };
 
   const handleLogin = (credentials) => {
-    // Ici on connecterait à l'API WooCommerce
     console.log('Connexion:', credentials);
     setIsAuthenticated(true);
     setShowAuthModal(false);
@@ -64,17 +65,17 @@ const Index = () => {
         <div className="container mx-auto px-4 py-16">
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-gray-900 mb-4">
-              Espace Grossiste GSM.ma
+              {t('home.title')}
             </h1>
             <p className="text-xl text-gray-600 mb-8">
-              Votre plateforme B2B pour l'achat en gros de produits GSM
+              {t('home.subtitle')}
             </p>
             <Button 
               size="lg" 
               onClick={() => setShowAuthModal(true)}
               className="bg-blue-600 hover:bg-blue-700"
             >
-              Se connecter
+              {t('header.login')}
             </Button>
           </div>
 
@@ -82,11 +83,11 @@ const Index = () => {
             <Card className="text-center">
               <CardHeader>
                 <ShoppingCart className="h-12 w-12 text-blue-600 mx-auto mb-2" />
-                <CardTitle>Commandes Faciles</CardTitle>
+                <CardTitle>{t('home.easyOrders')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription>
-                  Interface simple pour passer vos commandes rapidement
+                  {t('home.easyOrdersDesc')}
                 </CardDescription>
               </CardContent>
             </Card>
@@ -94,11 +95,11 @@ const Index = () => {
             <Card className="text-center">
               <CardHeader>
                 <Package className="h-12 w-12 text-green-600 mx-auto mb-2" />
-                <CardTitle>Suivi en Temps Réel</CardTitle>
+                <CardTitle>{t('home.realTimeTracking')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription>
-                  Suivez vos commandes de la validation à la livraison
+                  {t('home.realTimeTrackingDesc')}
                 </CardDescription>
               </CardContent>
             </Card>
@@ -106,11 +107,11 @@ const Index = () => {
             <Card className="text-center">
               <CardHeader>
                 <TrendingUp className="h-12 w-12 text-purple-600 mx-auto mb-2" />
-                <CardTitle>Tarifs Grossiste</CardTitle>
+                <CardTitle>{t('home.wholesalePrices')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription>
-                  Bénéficiez de prix préférentiels selon vos volumes
+                  {t('home.wholesalePricesDesc')}
                 </CardDescription>
               </CardContent>
             </Card>
@@ -118,11 +119,11 @@ const Index = () => {
             <Card className="text-center">
               <CardHeader>
                 <Users className="h-12 w-12 text-orange-600 mx-auto mb-2" />
-                <CardTitle>Support Dédié</CardTitle>
+                <CardTitle>{t('home.dedicatedSupport')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription>
-                  Un accompagnement personnalisé pour vos besoins
+                  {t('home.dedicatedSupportDesc')}
                 </CardDescription>
               </CardContent>
             </Card>
@@ -151,10 +152,10 @@ const Index = () => {
           <div className="container mx-auto px-4 py-8">
             <div className="text-center mb-8">
               <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                Tableau de Bord Grossiste
+                {t('home.dashboard')}
               </h2>
               <p className="text-gray-600">
-                Bienvenue dans votre espace B2B GSM.ma
+                {t('home.welcome')}
               </p>
             </div>
             
@@ -162,11 +163,11 @@ const Index = () => {
               <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => setCurrentPage('catalogue')}>
                 <CardHeader>
                   <ShoppingCart className="h-8 w-8 text-blue-600 mb-2" />
-                  <CardTitle>Catalogue Produits</CardTitle>
+                  <CardTitle>{t('home.productCatalog')}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <CardDescription>
-                    Parcourez nos produits GSM avec tarifs grossiste
+                    {t('home.productCatalogDesc')}
                   </CardDescription>
                 </CardContent>
               </Card>
@@ -174,11 +175,11 @@ const Index = () => {
               <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => setCurrentPage('commandes')}>
                 <CardHeader>
                   <Package className="h-8 w-8 text-green-600 mb-2" />
-                  <CardTitle>Mes Commandes</CardTitle>
+                  <CardTitle>{t('home.myOrders')}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <CardDescription>
-                    Suivez l'état de vos commandes en cours
+                    {t('home.myOrdersDesc')}
                   </CardDescription>
                 </CardContent>
               </Card>
@@ -186,11 +187,11 @@ const Index = () => {
               <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => setCurrentPage('panier')}>
                 <CardHeader>
                   <ShoppingCart className="h-8 w-8 text-purple-600 mb-2" />
-                  <CardTitle>Mon Panier</CardTitle>
+                  <CardTitle>{t('home.myCart')}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <CardDescription>
-                    {cartItems.length} article(s) dans votre panier
+                    {cartItems.length} {t('home.cartItems')}
                   </CardDescription>
                 </CardContent>
               </Card>
@@ -212,6 +213,14 @@ const Index = () => {
       
       {renderPage()}
     </div>
+  );
+};
+
+const Index = () => {
+  return (
+    <LanguageProvider>
+      <IndexContent />
+    </LanguageProvider>
   );
 };
 
